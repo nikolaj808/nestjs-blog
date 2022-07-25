@@ -6,3 +6,4 @@ A simple NestJS GraphQL Blog API. This project is to experiment with and learn a
 - [ ] Resolve specific fields
 - [ ] Make relationships non-nullable
 - [ ] Descriptions on everything (GraphQL docs)
+- [ ] Add authentication and authorization (possibly with [Auth0](https://auth0.com/))
