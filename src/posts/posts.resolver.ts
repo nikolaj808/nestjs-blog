@@ -1,41 +1,61 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { PostsService } from './posts.service';
 import { Post } from './entities/post.entity';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
+import { CommentsService } from 'src/comments/comments.service';
+import { Comment } from 'src/comments/entities/comment.entity';
+import { User } from 'src/users/entities/user.entity';
+import { UsersService } from 'src/users/users.service';
 
 @Resolver(() => Post)
 export class PostsResolver {
-  constructor(private readonly postsService: PostsService) {}
+  constructor(
+    private readonly commentsService: CommentsService,
+    private readonly postsService: PostsService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Mutation(() => Post)
-  async createPost(
-    @Args('createPostInput') createPostInput: CreatePostInput,
-  ): Promise<Post> {
+  createPost(@Args('createPostInput') createPostInput: CreatePostInput) {
     return this.postsService.create(createPostInput);
   }
 
   @Query(() => [Post], { name: 'posts' })
-  async findAll(): Promise<Post[]> {
+  findAll() {
     return this.postsService.findAll();
   }
 
   @Query(() => Post, { name: 'post', nullable: true })
-  async findOne(
-    @Args('id', { type: () => Int }) id: number,
-  ): Promise<Post | null> {
+  findOne(@Args('id', { type: () => Int }) id: number) {
     return this.postsService.findOne(id);
   }
 
   @Mutation(() => Post)
-  async updatePost(
-    @Args('updatePostInput') updatePostInput: UpdatePostInput,
-  ): Promise<Post> {
+  updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput) {
     return this.postsService.update(updatePostInput);
   }
 
   @Mutation(() => Post)
-  async removePost(@Args('id', { type: () => Int }) id: number): Promise<Post> {
+  removePost(@Args('id', { type: () => Int }) id: number) {
     return this.postsService.remove(id);
+  }
+
+  @ResolveField(() => User, { name: 'author' })
+  findAuthor(@Parent() post: Post) {
+    return this.usersService.findOne(post.authorId);
+  }
+
+  @ResolveField(() => [Comment], { name: 'comments' })
+  findComments(@Parent() post: Post) {
+    return this.commentsService.findAllByPost(post.id);
   }
 }

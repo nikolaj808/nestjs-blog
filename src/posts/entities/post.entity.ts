@@ -29,16 +29,14 @@ export class Post {
 
   @Field(() => User, {
     description: 'The posts author',
-    nullable: true,
   })
-  author?: User;
+  author: User;
 
   @Field(() => Int, { description: 'The post authors ID (unique)' })
   authorId: number;
 
   @Field(() => [Comment], {
     description: 'The posts comments',
-    nullable: true,
   })
-  comments?: Comment[];
+  comments: Comment[];
 }

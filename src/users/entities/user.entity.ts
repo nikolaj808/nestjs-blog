@@ -23,13 +23,11 @@ export class User {
 
   @Field(() => [Post], {
     description: 'Posts authored by the user',
-    nullable: true,
   })
-  posts?: Post[];
+  posts: Post[];
 
   @Field(() => [Comment], {
     description: 'Comments authored by the user',
-    nullable: true,
   })
-  comments?: Comment[];
+  comments: Comment[];
 }

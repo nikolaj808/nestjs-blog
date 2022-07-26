@@ -14,15 +14,11 @@ type Comment {
 
   """The comments content"""
   content: String!
-
-  """The comments author"""
-  commentor: User
+  commentor: User!
 
   """The comment authors ID (unique)"""
   commentorId: Int!
-
-  """The post that has been commented on"""
-  post: Post
+  post: Post!
 
   """The post ID that was commented on (unique)"""
   postId: Int!
@@ -48,12 +44,8 @@ type User {
 
   """The users name"""
   name: String
-
-  """Posts authored by the user"""
-  posts: [Post!]
-
-  """Comments authored by the user"""
-  comments: [Comment!]
+  posts: [Post!]!
+  comments: [Comment!]!
 }
 
 type Post {
@@ -77,15 +69,11 @@ type Post {
 
   """The posts view count"""
   viewCount: Float!
-
-  """The posts author"""
-  author: User
+  author: User!
 
   """The post authors ID (unique)"""
   authorId: Int!
-
-  """The posts comments"""
-  comments: [Comment!]
+  comments: [Comment!]!
 }
 
 type Query {

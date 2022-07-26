@@ -22,18 +22,16 @@ export class Comment {
 
   @Field(() => User, {
     description: 'The comments author',
-    nullable: true,
   })
-  commentor?: User;
+  commentor: User;
 
   @Field(() => Int, { description: 'The comment authors ID (unique)' })
   commentorId: number;
 
   @Field(() => Post, {
     description: 'The post that has been commented on',
-    nullable: true,
   })
-  post?: Post;
+  post: Post;
 
   @Field(() => Int, {
     description: 'The post ID that was commented on (unique)',
